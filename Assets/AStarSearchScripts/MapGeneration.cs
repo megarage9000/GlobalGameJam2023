@@ -14,6 +14,7 @@ public class MapGeneration : MonoBehaviour
     public int Y_Direction = 1;
 
     public GameObject MapUnitObject;
+    public GameObject ObstacleDetector;
 
     public GameObject inner;
     public GameObject outer;
@@ -46,7 +47,7 @@ public class MapGeneration : MonoBehaviour
                 Vector3 world_position = MapToWorldCoordinates(x, y);
                 MapUnit mapUnit = new MapUnit(x, y, world_position);
                 mapUnits[x, y] = mapUnit;
-                mapUnit.CheckIfObstacle(MapUnitObject);
+                mapUnit.CheckOverlappingObstacle(ObstacleDetector);
             }
         }
 
@@ -94,7 +95,8 @@ public class MapGeneration : MonoBehaviour
 
     public GameObject SpawnTracker(Vector3 position) {
         GameObject trackerObj = Instantiate(MapUnitObject, position, Quaternion.identity);
-        trackerObj.transform.localScale = new Vector3(Granularity, Granularity, Granularity);
+        trackerObj.transform.localScale = Vector3.one * Granularity;
+        trackerObj.transform.position -= Vector3.one;
         return trackerObj;
     }
 
@@ -109,6 +111,7 @@ public class MapGeneration : MonoBehaviour
             }
             else {
                 tracker.transform.position = mapUnits[a[0].x, a[0].y].Position;
+                tracker.transform.position += Vector3.down;
             }
 
             if(tracker2 == null) {
@@ -116,13 +119,16 @@ public class MapGeneration : MonoBehaviour
             }
             else {
                 tracker2.transform.position = mapUnits[a[1].x, a[1].y].Position;
+                tracker2.transform.position += Vector3.down;
             }
 
             if (tracker3 == null) {
                 tracker3 = SpawnTracker(mapUnits[a[2].x, a[2].y].Position);
+                tracker3.transform.position += Vector3.down;
             }
             else {
                 tracker3.transform.position = mapUnits[a[2].x, a[3].y].Position;
+                tracker4.transform.position += Vector3.down;
             }
 
             if (tracker4 == null) {
@@ -130,6 +136,7 @@ public class MapGeneration : MonoBehaviour
             }
             else {
                 tracker4.transform.position = mapUnits[a[3].x, a[3].y].Position;
+                tracker4.transform.position += Vector3.down;
             }
             return true;
         }

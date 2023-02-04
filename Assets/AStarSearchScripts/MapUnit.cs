@@ -74,4 +74,13 @@ public class MapUnit
             GameObject.Instantiate(instantiable, Position, Quaternion.identity);
         }
     }
+
+    public void CheckOverlappingObstacle(GameObject instantiable) {
+        Collider[] colliders = new Collider[1];
+        if(Physics.OverlapBoxNonAlloc(Position, new Vector3(Scale, 2 * Scale, Scale), colliders, Quaternion.identity, ObstacleLayer) != 0) {
+            Debug.Log($"Obstacle at Map Position {MapPosition}");
+            GameObject obj = GameObject.Instantiate(instantiable, Position + Vector3.down, Quaternion.identity);
+            obj.transform.localScale = Vector3.one * Scale;
+        }
+    }
 }
