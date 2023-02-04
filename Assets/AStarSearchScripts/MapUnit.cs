@@ -2,9 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MapUnit : MonoBehaviour
+public class MapUnit
 {
-
     public static float Scale = 1.0f;
 
     private Vector2 _mapPosition;
@@ -19,12 +18,32 @@ public class MapUnit : MonoBehaviour
     public float MapY {
         get => _mapPosition.y;  
         set => _mapPosition.y = value;
-    } 
+    }
+
+    public Vector3 _position;
+
+    public Vector3 Position => _position;
+
+    public float x {
+        get => _position.x;
+        set => _position.x = value;
+    }
+
+    public float y {
+        get => _position.y;
+        set => _position.y = value;
+    }
+
+    public float z {
+        get => _position.z;
+        set => _position.z = value;
+    }
 
     public bool IsObstacle = false;
 
-    private void Awake() {
-        transform.localScale = new Vector3(Scale, Scale, Scale);
+    public MapUnit(float mapX, float mapY, Vector3 worldPosition) {
+        _mapPosition = new Vector2(mapX, mapY);
+        _position = worldPosition; 
     }
 
     public override bool Equals(object other) {
@@ -41,19 +60,5 @@ public class MapUnit : MonoBehaviour
 
     public override int GetHashCode() {
         return base.GetHashCode();
-    }
-
-    private void OnTriggerEnter(Collider other) {
-        if(other.tag.Equals("Obstacle")) {
-            IsObstacle = true;
-            enabled = false;
-        }
-    }
-
-    private void OnTriggerExit(Collider other) {
-        if (other.tag.Equals("Obstacle")) {
-            IsObstacle = false;
-            enabled = true;
-        }
     }
 }
