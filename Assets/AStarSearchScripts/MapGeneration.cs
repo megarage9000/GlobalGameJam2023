@@ -37,8 +37,13 @@ public class MapGeneration : MonoBehaviour
     }
 
     private void Update() {
-        isInMap(inner.transform.position);
-        isInMap(outer.transform.position);
+        /*        isInMap(inner.transform.position);
+                isInMap(outer.transform.position);*/
+/*        for (int x = 0; x < Dimension.x; x++) {
+            for (int y = 0; y < Dimension.y; y++) {
+                mapUnits[x, y].CheckOverlappingObstacle(ObstacleDetector);
+            }
+        }*/
     }
 
     private void GenerateMap() {
@@ -53,7 +58,6 @@ public class MapGeneration : MonoBehaviour
 
         SpawnTracker(mapUnits[Dimension.x - 1, Dimension.y - 1].Position);
         SpawnTracker(mapUnits[0, 0].Position);
-
     }
 
 

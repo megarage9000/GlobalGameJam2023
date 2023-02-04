@@ -175,6 +175,7 @@ MonoBehaviour:
   X_Direction: 1
   Y_Direction: 1
   MapUnitObject: {fileID: 3029066207644561124, guid: f1ac3c90db6470241bc4d10cd3b6e76b, type: 3}
+  ObstacleDetector: {fileID: 939570257020306530, guid: 28d85f505932cce40a8b7be91cf6a777, type: 3}
   inner: {fileID: 1317520339}
   outer: {fileID: 254625187}
 --- !u!1 &254625187
@@ -990,7 +991,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!64 &1907599259
 MeshCollider:
   m_ObjectHideFlags: 0

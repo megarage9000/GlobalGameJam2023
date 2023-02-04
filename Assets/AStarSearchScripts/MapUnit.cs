@@ -9,6 +9,8 @@ public class MapUnit
 
     private Vector2Int _mapPosition;
     public Vector2Int MapPosition => _mapPosition;
+
+    GameObject debugObject = null;
     
     // X -> Horizontal, Y -> Vertical
     public int MapX {
@@ -77,10 +79,33 @@ public class MapUnit
 
     public void CheckOverlappingObstacle(GameObject instantiable) {
         Collider[] colliders = new Collider[1];
-        if(Physics.OverlapBoxNonAlloc(Position, new Vector3(Scale, 2 * Scale, Scale), colliders, Quaternion.identity, ObstacleLayer) != 0) {
-            Debug.Log($"Obstacle at Map Position {MapPosition}");
-            GameObject obj = GameObject.Instantiate(instantiable, Position + Vector3.down, Quaternion.identity);
-            obj.transform.localScale = Vector3.one * Scale;
+        /*        if(Physics.OverlapBoxNonAlloc(Position, new Vector3(Scale, 2 * Scale, Scale), colliders, Quaternion.identity, ObstacleLayer) != 0) {
+        *//*            if (debugObject) {
+                        GameObject.Destroy(debugObject);
+                    }
+                    debugObject = GameObject.Instantiate(instantiable, Position + Vector3.down, Quaternion.identity);
+                    debugObject.transform.localScale = Vector3.one * Scale;*//*
+                    IsObstacle = true;
+                }
+                else {
+                    if(debugObject != null) {
+        *//*                GameObject.Destroy(debugObject);*//*
+                        IsObstacle = false;
+                    }
+
+                }*/
+        IsObstacle = Physics.OverlapBoxNonAlloc(Position, new Vector3(Scale, 2 * Scale, Scale), colliders, Quaternion.identity, ObstacleLayer) != 0;
+        if (IsObstacle) {
+            if (debugObject) {
+                GameObject.Destroy(debugObject);
+            }
+            debugObject = GameObject.Instantiate(instantiable, Position + Vector3.down, Quaternion.identity);
+            debugObject.transform.localScale = Vector3.one * Scale;
+        }
+        else {
+            if (debugObject != null) {
+                GameObject.Destroy(debugObject);
+            }
         }
     }
 }
