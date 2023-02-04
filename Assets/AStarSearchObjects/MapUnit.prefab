@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 2115418756014787431}
   - component: {fileID: 4411963561053159232}
   - component: {fileID: 8414599309563624049}
-  - component: {fileID: 5140305578328998283}
   m_Layer: 0
   m_Name: MapUnit
   m_TagString: Untagged
@@ -98,16 +97,3 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &5140305578328998283
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3029066207644561124}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae25fb29198622249b24fa96775806e4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  scale: 0.25

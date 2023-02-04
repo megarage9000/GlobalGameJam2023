@@ -6,16 +6,16 @@ public class MapUnit
 {
     public static float Scale = 1.0f;
 
-    private Vector2 _mapPosition;
-    public Vector2 MapPosition => _mapPosition;
+    private Vector2Int _mapPosition;
+    public Vector2Int MapPosition => _mapPosition;
     
     // X -> Horizontal, Y -> Vertical
-    public float MapX {
+    public int MapX {
         get => _mapPosition.x;
         set => _mapPosition.x = value;
     }
     
-    public float MapY {
+    public int MapY {
         get => _mapPosition.y;  
         set => _mapPosition.y = value;
     }
@@ -41,8 +41,8 @@ public class MapUnit
 
     public bool IsObstacle = false;
 
-    public MapUnit(float mapX, float mapY, Vector3 worldPosition) {
-        _mapPosition = new Vector2(mapX, mapY);
+    public MapUnit(int mapX, int mapY, Vector3 worldPosition) {
+        _mapPosition = new Vector2Int(mapX, mapY);
         _position = worldPosition; 
     }
 

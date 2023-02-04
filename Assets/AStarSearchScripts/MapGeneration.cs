@@ -18,6 +18,10 @@ public class MapGeneration : MonoBehaviour
     public GameObject outer;
 
     GameObject tracker = null;
+    GameObject tracker2 = null;
+    GameObject tracker3 = null;
+    GameObject tracker4 = null;
+
 
     MapUnit[,] mapUnits;
     private void Awake() {
@@ -35,39 +39,91 @@ public class MapGeneration : MonoBehaviour
     }
 
     private void GenerateMap() {
-        Vector3 origin = transform.position;
         for(int x = 0; x < Dimension.x; x++) {
             for (int y = 0; y < Dimension.y; y++) {
-                Vector3 worldPosition = new Vector3(
-                    origin.x + (x * Granularity * X_Direction),
-                    origin.y,
-                    origin.z + (y * Granularity * Y_Direction)
-                );
-                MapUnit mapUnit = new MapUnit(x, y, worldPosition);
+                MapUnit mapUnit = new MapUnit(x, y, MapToWorldCoordinates(x, y));
                 mapUnits[x, y] = mapUnit;
             }
         }
 
-        Instantiate(MapUnitObject, mapUnits[Dimension.x - 1, Dimension.y - 1].Position, Quaternion.identity);
-        Instantiate(MapUnitObject, mapUnits[0, 0].Position, Quaternion.identity);
+        SpawnTracker(mapUnits[Dimension.x - 1, Dimension.y - 1].Position);
+        SpawnTracker(mapUnits[0, 0].Position);
 
     }
 
-    public bool isInMap(Vector3 other_position) {
-        other_position = other_position - transform.position;
-        float x = other_position.x / (Granularity * X_Direction);
-        float y = other_position.z / (Granularity * Y_Direction);
+    public Vector2Int WorldToMapCoordinates(Vector3 world_position) {
+        world_position = world_position - transform.position;
+        int x = Mathf.FloorToInt(world_position.x / (Granularity * X_Direction));
+        int y = Mathf.FloorToInt(world_position.z / (Granularity * Y_Direction));
+        return new Vector2Int(x, y);
+    }
 
+    public Vector2Int[] WorldToAreaMapCoordinates(Vector3 world_position) {
+        
+        world_position = world_position - transform.position;
+        float x = world_position.x / (Granularity * X_Direction);
+        float y = world_position.z / (Granularity * Y_Direction);
+
+        return new Vector2Int[4] {
+            new Vector2Int(Mathf.FloorToInt(x), Mathf.FloorToInt(y)),
+            new Vector2Int(Mathf.CeilToInt(x), Mathf.FloorToInt(y)),
+            new Vector2Int(Mathf.FloorToInt(x), Mathf.CeilToInt(y)),
+            new Vector2Int(Mathf.CeilToInt(x), Mathf.CeilToInt(y)),
+        };
+    }
+
+    public Vector3 MapToWorldCoordinates(int x, int y) {
+        return MapToWorldCoordinates(new Vector2Int(x, y));
+    }
+
+    public Vector3 MapToWorldCoordinates(Vector2Int map_position) {
+        Vector3 origin = transform.position;
+        return new Vector3(
+            origin.x + (map_position.x * Granularity * X_Direction),
+            origin.y,
+            origin.z + (map_position.y * Granularity * Y_Direction)
+        );
+    }
+
+    public GameObject SpawnTracker(Vector3 position) {
+        GameObject trackerObj = Instantiate(MapUnitObject, position, Quaternion.identity);
+        trackerObj.transform.localScale = new Vector3(Granularity, Granularity, Granularity);
+        return trackerObj;
+    }
+
+    public bool isInMap(Vector3 other_position) {
+        Vector2Int map_position = WorldToMapCoordinates(other_position);
+        int x = map_position.x;
+        int y = map_position.y;
         if(x > 0 && y > 0 && x < Dimension.x && y < Dimension.y) {
-            int pos_x = Mathf.FloorToInt(x);
-            int pos_y = Mathf.FloorToInt(y);
+            Vector2Int[] a = WorldToAreaMapCoordinates(other_position);
             if(tracker == null) {
-                tracker = Instantiate(MapUnitObject, mapUnits[pos_x, pos_y].Position, Quaternion.identity);
+                tracker = SpawnTracker(mapUnits[a[0].x, a[0].y].Position);
             }
             else {
-                tracker.transform.position = mapUnits[pos_x, pos_y].Position;
+                tracker.transform.position = mapUnits[a[0].x, a[0].y].Position;
             }
-            
+
+            if(tracker2 == null) {
+                tracker2 = SpawnTracker(mapUnits[a[1].x, a[1].y].Position);
+            }
+            else {
+                tracker2.transform.position = mapUnits[a[1].x, a[1].y].Position;
+            }
+
+            if (tracker3 == null) {
+                tracker3 = SpawnTracker(mapUnits[a[2].x, a[2].y].Position);
+            }
+            else {
+                tracker3.transform.position = mapUnits[a[2].x, a[3].y].Position;
+            }
+
+            if (tracker4 == null) {
+                tracker4 = SpawnTracker(mapUnits[a[3].x, a[3].y].Position);
+            }
+            else {
+                tracker4.transform.position = mapUnits[a[3].x, a[3].y].Position;
+            }
             return true;
         }
         return false;
