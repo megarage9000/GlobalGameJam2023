@@ -5,6 +5,7 @@ using UnityEngine;
 public class MapUnit
 {
     public static float Scale = 1.0f;
+    public static LayerMask ObstacleLayer;
 
     private Vector2Int _mapPosition;
     public Vector2Int MapPosition => _mapPosition;
@@ -60,5 +61,17 @@ public class MapUnit
 
     public override int GetHashCode() {
         return base.GetHashCode();
+    }
+
+    public void CheckIfObstacle(GameObject instantiable) {
+        float radius = Scale;
+        Vector3 direction = Vector3.up;
+        Vector3 position = Position - new Vector3(0f, 10 * Scale, 0f);
+        LayerMask layer_mask = ObstacleLayer;
+        RaycastHit hit;
+        if(Physics.SphereCast(position, radius, direction, out hit, Mathf.Infinity, layer_mask)) {
+            Debug.Log($"Obstacle at Map Position {MapPosition}");
+            GameObject.Instantiate(instantiable, Position, Quaternion.identity);
+        }
     }
 }

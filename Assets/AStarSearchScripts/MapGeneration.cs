@@ -7,6 +7,7 @@ using UnityEngine;
 public class MapGeneration : MonoBehaviour
 {
     public float Granularity = 0.25f;
+    public LayerMask ObstacleLayer;
     public Vector2Int Dimension = new Vector2Int(100, 100);
 
     public int X_Direction = 1;
@@ -27,6 +28,7 @@ public class MapGeneration : MonoBehaviour
     private void Awake() {
         mapUnits = new MapUnit[Dimension.x, Dimension.y];
         MapUnit.Scale = Granularity;
+        MapUnit.ObstacleLayer = ObstacleLayer;
     }
 
     private void Start() {
@@ -41,8 +43,10 @@ public class MapGeneration : MonoBehaviour
     private void GenerateMap() {
         for(int x = 0; x < Dimension.x; x++) {
             for (int y = 0; y < Dimension.y; y++) {
-                MapUnit mapUnit = new MapUnit(x, y, MapToWorldCoordinates(x, y));
+                Vector3 world_position = MapToWorldCoordinates(x, y);
+                MapUnit mapUnit = new MapUnit(x, y, world_position);
                 mapUnits[x, y] = mapUnit;
+                mapUnit.CheckIfObstacle(MapUnitObject);
             }
         }
 
@@ -50,6 +54,9 @@ public class MapGeneration : MonoBehaviour
         SpawnTracker(mapUnits[0, 0].Position);
 
     }
+
+
+    
 
     public Vector2Int WorldToMapCoordinates(Vector3 world_position) {
         world_position = world_position - transform.position;
