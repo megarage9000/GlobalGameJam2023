@@ -8,20 +8,15 @@ public class EnemyMovement : MonoBehaviour
     public int UpdatesPerSecond = 2;
     public GameObject target;
 
-    Rigidbody rb;
     AStarSearch searcherScript;
     List<Vector3> path;
-    Vector3 current_goal;
     Vector3 next_goal;
-    float width;
     float y_displacement;
-    int index = 0;
 
     IEnumerator SearchRoutine() {
         while(true) {
             path = searcherScript.BeginSearch(transform.position, target.transform.position);
             if(path.Count > 0) {
-                index = 0;
                 next_goal = path[0];
                 next_goal.y += y_displacement;
             }
@@ -31,7 +26,6 @@ public class EnemyMovement : MonoBehaviour
 
     private void Awake() {
         searcherScript = GetComponent<AStarSearch>();
-        rb = GetComponent<Rigidbody>();
         y_displacement = transform.position.y + 0.1f;
     }
 
@@ -41,8 +35,17 @@ public class EnemyMovement : MonoBehaviour
         StartCoroutine(SearchRoutine());
     }
 
-    private void FixedUpdate() {
+    // Run in Update
+    private void Search() {
         float move = speed * Time.deltaTime;
         transform.position = Vector3.MoveTowards(transform.position, next_goal, move);
+    }
+
+    private void Update() {
+        Search();
+    }
+
+    private void FixedUpdate() {
+        
     }
 }

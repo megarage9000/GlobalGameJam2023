@@ -77,7 +77,7 @@ public class AStarSearch : MonoBehaviour
                 GameObject path_object = Instantiate(pathObject, path_node.MapLocation.Position, Quaternion.identity);
                 pathObjects.Add(path_object);
                 path.Insert(0, path_node.MapLocation.Position);
-                path_node = path_node.Parent;
+                path_node = path_node.Parent;  
             }
         }
         return path;
@@ -124,6 +124,7 @@ public class AStarSearch : MonoBehaviour
                 open_node.G = g;
                 open_node.H = h;
                 open_node.F = f;
+                open_node.Parent = current;
             }
             else {
                 open_list.Add(

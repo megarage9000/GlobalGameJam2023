@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class MapGeneration : MonoBehaviour
 {
+    [Header("Granularity\n-Defines how detailed the map needs to be\n-best set to half the players scale")]
     public float Granularity = 0.25f;
     public LayerMask ObstacleLayer;
     public Vector2Int Dimension = new Vector2Int(100, 100);
@@ -145,7 +146,7 @@ public class MapGeneration : MonoBehaviour
     public GameObject SpawnTracker(Vector3 position) {
         GameObject trackerObj = Instantiate(MapUnitObject, position, Quaternion.identity);
         trackerObj.transform.localScale = Vector3.one * Granularity;
-        trackerObj.transform.position -= Vector3.one;
+        trackerObj.transform.position += Vector3.down;
         return trackerObj;
     }
 
