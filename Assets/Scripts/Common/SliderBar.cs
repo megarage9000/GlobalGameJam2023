@@ -3,9 +3,13 @@ using UnityEngine.UI;
 
 public class SliderBar : MonoBehaviour
 {
-    public Slider slider;
+    private Slider slider;
 
-    
+    void Awake()
+    {
+       slider = gameObject.GetComponent<Slider>();
+    }
+
     public void SetValue(int value)
     {
         slider.value = value;
