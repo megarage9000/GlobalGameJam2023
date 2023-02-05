@@ -8,7 +8,6 @@ public class AStarSearch : MonoBehaviour
 {
     public GameObject pathObject;
     public MapGeneration map;
-    public float pathWidth = 1.0f;
     bool isDone = false;
 
     Dictionary<Vector2Int, AStarUnit> open_list;
@@ -64,18 +63,24 @@ public class AStarSearch : MonoBehaviour
         return OutputPath();
     }
 
+    public void StopSearch() {
+        if (!isDone)
+            isDone = true;
+    }
+
+
     public List<Vector3> OutputPath() {
         List<Vector3> path = new List<Vector3>();
         if (isDone) {
-            foreach (GameObject go in pathObjects) {
+/*            foreach (GameObject go in pathObjects) {
                 Destroy(go);
             }
-            pathObjects.Clear();
+            pathObjects.Clear();*/
 
             AStarUnit path_node = current;
             while(path_node != null && !path_node.IsEqualTo(start_node)) {
-                GameObject path_object = Instantiate(pathObject, path_node.MapLocation.Position, Quaternion.identity);
-                pathObjects.Add(path_object);
+/*                GameObject path_object = Instantiate(pathObject, path_node.MapLocation.Position, Quaternion.identity);
+                pathObjects.Add(path_object);*/
                 path.Insert(0, path_node.MapLocation.Position);
                 path_node = path_node.Parent;  
             }
@@ -112,11 +117,10 @@ public class AStarSearch : MonoBehaviour
         List<MapUnit> neighbors = map.GetNeighbours(current.MapLocation);
         foreach(MapUnit neighbor in neighbors) {
             if (closed_list.ContainsKey(neighbor.MapPosition)) continue;
-            // if (!neighbor.IsWideEnough(pathWidth)) continue;
 
             // Calculate g,f,h
-            float g = current.G + Vector2.Distance(current.MapLocation.MapPosition, neighbor.MapPosition);
-            float h = Vector2.Distance(neighbor.MapPosition, end_node.MapLocation.MapPosition);
+            float g = current.G + Vector3.Distance(current.MapLocation.Position, neighbor.Position);
+            float h = Vector3.Distance(neighbor.Position, end_node.MapLocation.Position);
             float f = g + h;
 
             // Add or update the node at given location

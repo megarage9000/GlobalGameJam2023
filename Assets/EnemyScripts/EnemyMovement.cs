@@ -12,6 +12,7 @@ public class EnemyMovement : MonoBehaviour
     List<Vector3> path;
     Vector3 next_goal;
     float y_displacement;
+    bool canMove = false;
 
     IEnumerator SearchRoutine() {
         while(true) {
@@ -26,16 +27,26 @@ public class EnemyMovement : MonoBehaviour
 
     private void Awake() {
         searcherScript = GetComponent<AStarSearch>();
-        y_displacement = transform.position.y + 0.1f;
+        y_displacement = 0.0f;
+        canMove = true;
     }
 
-    // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(SearchRoutine());
+        StartPathFinding();
     }
 
-    // Run in Update
+    public void StartPathFinding() {
+        StartCoroutine(SearchRoutine());
+        canMove = true;
+    }    
+
+    public void StopPathFinding() {
+        searcherScript.StopSearch();
+        StopCoroutine(SearchRoutine());
+        canMove = false;
+    }
+
     private void Search() {
         float move = speed * Time.deltaTime;
         transform.position = Vector3.MoveTowards(transform.position, next_goal, move);
@@ -43,10 +54,8 @@ public class EnemyMovement : MonoBehaviour
     }
 
     private void Update() {
-        Search();
-    }
-
-    private void FixedUpdate() {
-        
+        if(canMove) {
+            Search();
+        }
     }
 }

@@ -8,7 +8,9 @@ public class MapGeneration : MonoBehaviour
 {
     [Header("Granularity\n-Defines how detailed the map needs to be\n-best set to half the players scale")]
     public float Granularity = 0.25f;
+    public float CeilingHeight = 400f;
     public LayerMask ObstacleLayer;
+    public LayerMask FloorLayer;
     public Vector2Int Dimension = new Vector2Int(100, 100);
 
     public int X_Direction = 1;
@@ -41,7 +43,9 @@ public class MapGeneration : MonoBehaviour
     private void Awake() {
         mapUnits = new MapUnit[Dimension.x, Dimension.y];
         MapUnit.Scale = Granularity;
+        MapUnit.CeilingHeight = CeilingHeight;
         MapUnit.ObstacleLayer = ObstacleLayer;
+        MapUnit.FloorMask = FloorLayer;
         GenerateMap();
     }
 
@@ -65,6 +69,7 @@ public class MapGeneration : MonoBehaviour
                 Vector3 world_position = MapToWorldCoordinates(x, y);
                 MapUnit mapUnit = new MapUnit(x, y, world_position);
                 mapUnits[x, y] = mapUnit;
+                mapUnit.SetYPosition(MapUnitObject);
                 mapUnit.CheckOverlappingObstacle(ObstacleDetector);
             }
         }

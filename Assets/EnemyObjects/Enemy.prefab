@@ -27,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3143533819594919526}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.75, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -109,7 +109,9 @@ GameObject:
   - component: {fileID: 3143533820918952401}
   - component: {fileID: 3143533820918952400}
   - component: {fileID: 3143533820918952403}
+  - component: {fileID: 4532577086660717698}
   - component: {fileID: 3143533820918952406}
+  - component: {fileID: 5531973084314350973}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -125,7 +127,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3143533820918952402}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.22, y: 0.5, z: 4.44}
+  m_LocalPosition: {x: 6.22, y: 0, z: 4.44}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -164,6 +166,49 @@ MonoBehaviour:
   speed: 5
   UpdatesPerSecond: 20
   target: {fileID: 0}
+--- !u!114 &4532577086660717698
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3143533820918952402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8a2aff44d586a5469351f4ae43002ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnCharacterSpot:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3143533820918952403}
+        m_TargetAssemblyTypeName: EnemyMovement, Assembly-CSharp
+        m_MethodName: StopPathFinding
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnCharacterLost:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3143533820918952403}
+        m_TargetAssemblyTypeName: EnemyMovement, Assembly-CSharp
+        m_MethodName: StartPathFinding
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  PlayerTag: Player
 --- !u!114 &3143533820918952406
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -178,4 +223,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pathObject: {fileID: 3522145988421276979, guid: 99ff0c7e370f6674a8ae4d93c4f29e08, type: 3}
   map: {fileID: 0}
-  pathWidth: 1
+--- !u!65 &5531973084314350973
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3143533820918952402}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 4, y: 1, z: 4}
+  m_Center: {x: 0, y: 0.75, z: 3}

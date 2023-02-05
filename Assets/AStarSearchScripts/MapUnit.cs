@@ -6,11 +6,13 @@ public class MapUnit
 {
     public static float Scale = 1.0f;
     public static LayerMask ObstacleLayer;
+    public static LayerMask FloorMask;
+    public static float CeilingHeight;
 
     private Vector2Int _mapPosition;
     public Vector2Int MapPosition => _mapPosition;
 
-    GameObject debugObject = null;
+    // GameObject debugObject = null;
     
     // X -> Horizontal, Y -> Vertical
     public int MapX {
@@ -53,68 +55,34 @@ public class MapUnit
         return other.MapX == MapX && other.MapY == MapY;
     }
 
-    public override bool Equals(object other) {
-        if(other == null || GetType().Equals(other.GetType()) == false) {
-            return false;
-        } 
-        else {
-            MapUnit otherMapUnit = other as MapUnit;
-            return
-                otherMapUnit.MapY == MapY &&
-                otherMapUnit.MapX == MapX;
-        }
-    }
-
-    public override int GetHashCode() {
-        return base.GetHashCode();
-    }
-
-    public void CheckIfObstacle(GameObject instantiable) {
-        float radius = Scale;
-        Vector3 direction = Vector3.up;
-        Vector3 position = Position - new Vector3(0f, 10 * Scale, 0f);
-        LayerMask layer_mask = ObstacleLayer;
-        RaycastHit hit;
-        if(Physics.SphereCast(position, radius, direction, out hit, Mathf.Infinity, layer_mask)) {
-            Debug.Log($"Obstacle at Map Position {MapPosition}");
-            GameObject.Instantiate(instantiable, Position, Quaternion.identity);
-        }
-    }
-
     public bool IsWideEnough(float radius) {
         Collider[] colliders = new Collider[1];
         return Physics.OverlapSphereNonAlloc(Position, radius, colliders, ObstacleLayer) == 0;
     }
 
-    public void CheckOverlappingObstacle(GameObject instantiable) {
-        Collider[] colliders = new Collider[1];
-        /*        if(Physics.OverlapBoxNonAlloc(Position, new Vector3(Scale, 2 * Scale, Scale), colliders, Quaternion.identity, ObstacleLayer) != 0) {
-        *//*            if (debugObject) {
-                        GameObject.Destroy(debugObject);
-                    }
-                    debugObject = GameObject.Instantiate(instantiable, Position + Vector3.down, Quaternion.identity);
-                    debugObject.transform.localScale = Vector3.one * Scale;*//*
-                    IsObstacle = true;
-                }
-                else {
-                    if(debugObject != null) {
-        *//*                GameObject.Destroy(debugObject);*//*
-                        IsObstacle = false;
-                    }
+    public void SetYPosition(GameObject instantiable) {
+        RaycastHit hit;
+        if(Physics.Raycast(Position + Vector3.up * CeilingHeight, Vector3.down, out hit, CeilingHeight, FloorMask)) {
+            _position.y = hit.point.y;
+        }
+        // debugObject = GameObject.Instantiate(instantiable, Position, Quaternion.identity);
+    }
 
-                }*/
-        IsObstacle = Physics.OverlapBoxNonAlloc(Position, new Vector3(Scale, 2 * Scale, Scale), colliders, Quaternion.identity, ObstacleLayer) != 0;
-        if (IsObstacle) {
+    public void CheckOverlappingObstacle(GameObject instantiable) {
+        RaycastHit[] hits = new RaycastHit[1];
+        IsObstacle = Physics.BoxCastNonAlloc(Position + Vector3.up * CeilingHeight, Vector3.one * Scale, Vector3.down, hits, Quaternion.identity, CeilingHeight, ObstacleLayer) != 0;
+        /*if (IsObstacle) {
             if (debugObject) {
                 GameObject.Destroy(debugObject);
             }
-            debugObject = GameObject.Instantiate(instantiable, Position + Vector3.down, Quaternion.identity);
+            Debug.Log($"Obstacle at {_position}");
+            debugObject = GameObject.Instantiate(instantiable, Position + Vector3.up * Scale, Quaternion.identity);
             debugObject.transform.localScale = Vector3.one * Scale;
         }
         else {
             if (debugObject != null) {
                 GameObject.Destroy(debugObject);
             }
-        }
+        }*/
     }
 }
