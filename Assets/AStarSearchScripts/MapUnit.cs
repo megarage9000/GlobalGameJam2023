@@ -72,24 +72,11 @@ public class MapUnit
         /*RaycastHit[] hits = new RaycastHit[1];
         IsObstacle = Physics.BoxCastNonAlloc(Position + Vector3.up * CeilingHeight, Vector3.one * Scale, Vector3.down, hits, Quaternion.identity, CeilingHeight) != 0;
         */
-
-/*        RaycastHit hit;
+        RaycastHit hit;
         IsObstacle = Physics.Raycast(Position + Vector3.up * CeilingHeight, Vector3.down, out hit, CeilingHeight);
         if (IsObstacle) {
             IsObstacle = ObstacleLayer == (ObstacleLayer | (1 << hit.collider.gameObject.layer));
         }
-        if (IsObstacle) {
-            if (debugObject) {
-                GameObject.Destroy(debugObject);
-            }
-*//*            Debug.Log($"Obstacle at {_position}");*//*
-            debugObject = GameObject.Instantiate(instantiable, Position + Vector3.up * Scale, Quaternion.identity);
-            debugObject.transform.localScale = Vector3.one * Scale;
-        }
-        else {
-            if (debugObject != null) {
-                GameObject.Destroy(debugObject);
-            }
-        }*/
+       
     }
 }

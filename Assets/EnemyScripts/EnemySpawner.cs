@@ -12,8 +12,8 @@ public class EnemySpawner : MonoBehaviour
     public int GrowthRate = 10;
     public float spawnRateIncrease = 0.1f;
 
-    public const int MAX_NUM_ENEMIES = 100;
-    public const float MAX_SPAWN_RATE = 5;
+    public int MAX_NUM_ENEMIES = 100;
+    public float MAX_SPAWN_RATE = 5;
 
     private int numEnemies;
     private int numSpawners;
