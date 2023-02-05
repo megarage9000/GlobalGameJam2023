@@ -39,6 +39,7 @@ public class EnemyMovement : MonoBehaviour
     private void Search() {
         float move = speed * Time.deltaTime;
         transform.position = Vector3.MoveTowards(transform.position, next_goal, move);
+        transform.LookAt(next_goal);
     }
 
     private void Update() {
