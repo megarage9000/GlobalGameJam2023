@@ -8,26 +8,32 @@ public class EnemySpawner : MonoBehaviour
     public GameObject EnemyPrefab;
     public UnityEvent EnemiesCleared;
 
+    public int Round = 1;
+
     private int numEnemies;
     
+    public void SpawningRoutine(Transform new_transform) {
 
-
-    IEnumerator SpawningRoutine(int numberOfEnemies, int spawnRatePerSecond, Transform new_transform) {
-
-        numEnemies = numberOfEnemies;
-
-        for (int i = 0; i < numberOfEnemies; i++) {
-            Instantiate(EnemyPrefab, transform.position, transform.rotation);
+        
+        for (int i = 0; i < numEnemies; i++) {
+            GameObject spawned = Instantiate(EnemyPrefab, transform.position, transform.rotation);
+            HealthSystem healthSystem = spawned.GetComponent<HealthSystem>();
+            if(healthSystem) {
+                healthSystem.OnDeath.AddListener(onEnemyKilled);
+            }
             transform.position = new_transform.position;
             transform.rotation = new_transform.rotation;
-            yield return new WaitForSeconds(1f / spawnRatePerSecond);
         }
     }
 
-    void onEnemyKilled() {
+    public void StartNewRound(int round) {
+
+    }
+
+    public void onEnemyKilled() {
         numEnemies--;
         if(numEnemies <= 0) {
-            EnemiesCleared?.Invoke();
+            Round++;
         }
     }
 }
