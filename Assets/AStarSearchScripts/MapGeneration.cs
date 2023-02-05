@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 
 
@@ -39,6 +40,7 @@ public class MapGeneration : MonoBehaviour
     GameObject tracker3 = null;
     GameObject tracker4 = null;
 
+    public UnityEvent ReadyToStart;
 
     MapUnit[,] mapUnits;
     private void Awake() {
@@ -78,6 +80,7 @@ public class MapGeneration : MonoBehaviour
 
         SpawnTracker(mapUnits[Dimension.x - 1, Dimension.y - 1].Position);
         SpawnTracker(mapUnits[0, 0].Position);
+        ReadyToStart.Invoke();
     }
 
 

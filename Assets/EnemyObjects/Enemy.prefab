@@ -165,7 +165,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
-  UpdatesPerSecond: 20
+  UpdatesPerSecond: 10
   target: {fileID: 0}
   rotationSpeed: 5
 --- !u!114 &4532577086660717698
