@@ -12,7 +12,7 @@ public class MapUnit
     private Vector2Int _mapPosition;
     public Vector2Int MapPosition => _mapPosition;
 
-    // GameObject debugObject = null;
+    GameObject debugObject = null;
     
     // X -> Horizontal, Y -> Vertical
     public int MapX {
@@ -69,13 +69,20 @@ public class MapUnit
     }
 
     public void CheckOverlappingObstacle(GameObject instantiable) {
-        RaycastHit[] hits = new RaycastHit[1];
-        IsObstacle = Physics.BoxCastNonAlloc(Position + Vector3.up * CeilingHeight, Vector3.one * Scale, Vector3.down, hits, Quaternion.identity, CeilingHeight, ObstacleLayer) != 0;
-        /*if (IsObstacle) {
+        /*RaycastHit[] hits = new RaycastHit[1];
+        IsObstacle = Physics.BoxCastNonAlloc(Position + Vector3.up * CeilingHeight, Vector3.one * Scale, Vector3.down, hits, Quaternion.identity, CeilingHeight) != 0;
+        */
+
+        RaycastHit hit;
+        IsObstacle = Physics.Raycast(Position + Vector3.up * CeilingHeight, Vector3.down, out hit, CeilingHeight);
+        if (IsObstacle) {
+            IsObstacle = ObstacleLayer == (ObstacleLayer | (1 << hit.collider.gameObject.layer));
+        }
+        if (IsObstacle) {
             if (debugObject) {
                 GameObject.Destroy(debugObject);
             }
-            Debug.Log($"Obstacle at {_position}");
+/*            Debug.Log($"Obstacle at {_position}");*/
             debugObject = GameObject.Instantiate(instantiable, Position + Vector3.up * Scale, Quaternion.identity);
             debugObject.transform.localScale = Vector3.one * Scale;
         }
@@ -83,6 +90,6 @@ public class MapUnit
             if (debugObject != null) {
                 GameObject.Destroy(debugObject);
             }
-        }*/
+        }
     }
 }
