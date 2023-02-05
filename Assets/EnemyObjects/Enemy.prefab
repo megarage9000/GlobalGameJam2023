@@ -166,6 +166,7 @@ MonoBehaviour:
   speed: 5
   UpdatesPerSecond: 20
   target: {fileID: 0}
+  rotationSpeed: 5
 --- !u!114 &4532577086660717698
 MonoBehaviour:
   m_ObjectHideFlags: 0

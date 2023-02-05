@@ -7,6 +7,7 @@ public class EnemyMovement : MonoBehaviour
     public float speed;
     public int UpdatesPerSecond = 2;
     public GameObject target;
+    public float rotationSpeed;
 
     AStarSearch searcherScript;
     List<Vector3> path;
@@ -49,8 +50,9 @@ public class EnemyMovement : MonoBehaviour
 
     private void Search() {
         float move = speed * Time.deltaTime;
+        Quaternion lookRotation = Quaternion.LookRotation((next_goal - transform.position).normalized, Vector3.up);
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, rotationSpeed * Time.deltaTime);
         transform.position = Vector3.MoveTowards(transform.position, next_goal, move);
-        transform.LookAt(next_goal);
     }
 
     private void Update() {
