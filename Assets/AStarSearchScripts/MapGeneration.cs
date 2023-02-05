@@ -13,6 +13,17 @@ public class MapGeneration : MonoBehaviour
     public int X_Direction = 1;
     public int Y_Direction = 1;
 
+    Vector2Int[] neighbour_directions = new Vector2Int[] {
+        new Vector2Int(1, 0),
+        new Vector2Int(1, 1),
+        new Vector2Int(0, 1),
+        new Vector2Int(-1, 1),
+        new Vector2Int(-1, 0),
+        new Vector2Int(-1, -1),
+        new Vector2Int(0, -1),
+        new Vector2Int(1, -1)
+    };
+
     public GameObject MapUnitObject;
     public GameObject ObstacleDetector;
 
@@ -30,12 +41,13 @@ public class MapGeneration : MonoBehaviour
         mapUnits = new MapUnit[Dimension.x, Dimension.y];
         MapUnit.Scale = Granularity;
         MapUnit.ObstacleLayer = ObstacleLayer;
-    }
-
-    private void Start() {
         GenerateMap();
     }
 
+/*    private void Start() {
+        GenerateMap();
+    }
+*/
     private void Update() {
         /*        isInMap(inner.transform.position);
                 isInMap(outer.transform.position);*/
@@ -70,6 +82,28 @@ public class MapGeneration : MonoBehaviour
         return new Vector2Int(x, y);
     }
 
+    public bool IsValidMapCoordinates(Vector2Int map_position) {
+        int x = map_position.x;
+        int y = map_position.y;
+        return (x >= 0 && y >= 0 && x < Dimension.x && y < Dimension.y);    
+    }
+
+    public List<MapUnit> GetNeighbours(MapUnit map_unit) {
+        int x = map_unit.MapX;
+        int y = map_unit.MapY;
+        List<MapUnit> neighbours = new List<MapUnit>();
+        foreach (Vector2Int direction in neighbour_directions) {
+            Vector2Int neighbor_pos = new Vector2Int(x + direction.x, y + direction.y);
+            if(IsValidMapCoordinates(neighbor_pos)) {
+                MapUnit neighbor = mapUnits[neighbor_pos.x, neighbor_pos.y];
+                if(neighbor.IsObstacle == false) {
+                    neighbours.Add(neighbor);
+                }
+            }
+        }
+        return neighbours;
+    }
+
     public Vector2Int[] WorldToAreaMapCoordinates(Vector3 world_position) {
         
         world_position = world_position - transform.position;
@@ -82,6 +116,17 @@ public class MapGeneration : MonoBehaviour
             new Vector2Int(Mathf.FloorToInt(x), Mathf.CeilToInt(y)),
             new Vector2Int(Mathf.CeilToInt(x), Mathf.CeilToInt(y)),
         };
+    }
+
+    public MapUnit GetMapUnitFromWorld(Vector3 world_position) {
+        Vector2Int map_position = WorldToMapCoordinates(world_position);
+        if(IsValidMapCoordinates(map_position)) {
+            MapUnit mapUnit = mapUnits[map_position.x, map_position.y];
+            return mapUnit;
+        }
+        else {
+            return null;
+        }
     }
 
     public Vector3 MapToWorldCoordinates(int x, int y) {
@@ -108,7 +153,7 @@ public class MapGeneration : MonoBehaviour
         Vector2Int map_position = WorldToMapCoordinates(other_position);
         int x = map_position.x;
         int y = map_position.y;
-        if(x > 0 && y > 0 && x < Dimension.x && y < Dimension.y) {
+        if(x >= 0 && y >= 0 && x < Dimension.x && y < Dimension.y) {
             Vector2Int[] a = WorldToAreaMapCoordinates(other_position);
             if(tracker == null) {
                 tracker = SpawnTracker(mapUnits[a[0].x, a[0].y].Position);

@@ -49,6 +49,10 @@ public class MapUnit
         _position = worldPosition; 
     }
 
+    public bool IsEqualTo(MapUnit other) {
+        return other.MapX == MapX && other.MapY == MapY;
+    }
+
     public override bool Equals(object other) {
         if(other == null || GetType().Equals(other.GetType()) == false) {
             return false;
@@ -56,8 +60,8 @@ public class MapUnit
         else {
             MapUnit otherMapUnit = other as MapUnit;
             return
-                otherMapUnit.MapY == otherMapUnit.MapY &&
-                otherMapUnit.MapX == otherMapUnit.MapX;
+                otherMapUnit.MapY == MapY &&
+                otherMapUnit.MapX == MapX;
         }
     }
 
