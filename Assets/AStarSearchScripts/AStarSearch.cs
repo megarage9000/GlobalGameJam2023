@@ -10,9 +10,6 @@ public class AStarSearch : MonoBehaviour
     public MapGeneration map;
     bool isDone = false;
 
-    public GameObject starter_object;
-    public GameObject ending_object;
-
     Dictionary<Vector2Int, AStarUnit> open_list;
     Dictionary<Vector2Int, AStarUnit> closed_list;
 
@@ -31,24 +28,11 @@ public class AStarSearch : MonoBehaviour
         end_node = null;
     }
 
-    private void Start() {
-        StartCoroutine(BeginSearchCoroutine());
-    }
+    public List<Vector3> BeginSearch(Vector3 start_pos, Vector3 end_pos) {
 
-    IEnumerator BeginSearchCoroutine() {
-        while (true) {
-            Vector3 start_pos = starter_object.transform.position;
-            Vector3 end_pos = ending_object.transform.position;
-            BeginSearch(start_pos, end_pos);
-            yield return new WaitForSeconds(0.5f);
-        }
-    }
-
-
-    public void BeginSearch(Vector3 start_pos, Vector3 end_pos) {
+        List<Vector3> nodes = new List<Vector3>();
 
         isDone = false;
-
         open_list.Clear();
         closed_list.Clear();
 
@@ -56,7 +40,7 @@ public class AStarSearch : MonoBehaviour
         MapUnit end_map_unit = map.GetMapUnitFromWorld(end_pos);
 
         if (start_map_unit == null || end_map_unit == null) {
-            return;
+            return nodes;
         }
         else {
             start_node = new AStarUnit(start_map_unit, 0f, 0f, 0f);
@@ -65,11 +49,12 @@ public class AStarSearch : MonoBehaviour
             while(!isDone) {
                 Search();
             }
-            OutputPath();
+            return OutputPath();
         }
     }
 
-    public void OutputPath() {
+    public List<Vector3> OutputPath() {
+        List<Vector3> path = new List<Vector3>();
         if (isDone) {
             foreach (GameObject go in pathObjects) {
                 Destroy(go);
@@ -78,12 +63,13 @@ public class AStarSearch : MonoBehaviour
 
             AStarUnit path_node = current;
             while(path_node != null && !path_node.IsEqualTo(start_node)) {
-                Debug.Log(path_node.MapLocation.MapPosition);
                 GameObject path_object = Instantiate(pathObject, path_node.MapLocation.Position, Quaternion.identity);
                 pathObjects.Add(path_object);
+                path.Insert(0, path_node.MapLocation.Position);
                 path_node = path_node.Parent;
             }
         }
+        return path;
     }
     /*
      * Basic A * Search
@@ -128,24 +114,13 @@ public class AStarSearch : MonoBehaviour
                     new AStarUnit(neighbor, g, h, f, current));
             }
         }
-
         if(open_list.Count == 0) {
             isDone = true;
+            return;
         }
-        else {
-            AStarUnit lowest_node = null;
-            try {
-                lowest_node = open_list.Values.OrderBy(x => x.F).ToList()[0];
-            }
-            catch (Exception e) {
-                Debug.LogError(e);
-                Debug.LogError($"open_list length = {open_list.Values.Count}");
-            }
-            finally {
-                open_list.Remove(lowest_node.MapLocation.MapPosition);
-                closed_list.Add(lowest_node.MapLocation.MapPosition, lowest_node);
-                current = lowest_node;
-            }
-        }
+        AStarUnit lowest_node = open_list.Values.OrderBy(x => x.F).ToList()[0];
+        open_list.Remove(lowest_node.MapLocation.MapPosition);
+        closed_list.Add(lowest_node.MapLocation.MapPosition, lowest_node);
+        current = lowest_node;
     }
 }
