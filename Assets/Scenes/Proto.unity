@@ -278,7 +278,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6731228421236010852, guid: 8258612409cbd8e4d95f35824b8bdb3b, type: 3}
       propertyPath: Granularity
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6731228421236010852, guid: 8258612409cbd8e4d95f35824b8bdb3b, type: 3}
       propertyPath: ReadyToStart.m_PersistentCalls.m_Calls.Array.size
