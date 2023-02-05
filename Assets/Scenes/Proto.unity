@@ -294,6 +294,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EnemyPrefab: {fileID: 0}
+  EnemiesCleared:
+    m_PersistentCalls:
+      m_Calls: []
+  Round: 1
 --- !u!4 &138318020
 Transform:
   m_ObjectHideFlags: 0
@@ -5297,7 +5301,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerSpeed: 5
   MouseSpeed: 2
-  RayTracker: {fileID: 749400174}
 --- !u!136 &2019889127
 CapsuleCollider:
   m_ObjectHideFlags: 0
