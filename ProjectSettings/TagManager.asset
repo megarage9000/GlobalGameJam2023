@@ -6,16 +6,16 @@ TagManager:
   tags:
   - Obstacle
   - Ground
+  - MapGenerator
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
   - Obstacle
-  - Ground
   - Water
   - UI
+  - UI
   - Floor
-  - 
   - 
   - 
   - 

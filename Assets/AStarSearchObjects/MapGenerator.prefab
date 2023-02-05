@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6731228421236010852}
   m_Layer: 0
   m_Name: MapGenerator
-  m_TagString: Untagged
+  m_TagString: MapGenerator
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -45,10 +45,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Granularity: 1
+  CeilingHeight: 400
   ObstacleLayer:
     serializedVersion: 2
     m_Bits: 8
-  Dimension: {x: 200, y: 200}
+  FloorLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  MaxWorldDimensions: {x: 151, y: 151}
   X_Direction: 1
   Y_Direction: 1
   MapUnitObject: {fileID: 3029066207644561124, guid: f1ac3c90db6470241bc4d10cd3b6e76b, type: 3}
