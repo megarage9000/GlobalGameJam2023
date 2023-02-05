@@ -12,8 +12,6 @@ public class PlayerMovement : MonoBehaviour
 
     RaycastHit groundHit;
     float distanceFromGround;
-    public GameObject RayTracker;
-       
            
     void Start()
     {
@@ -23,7 +21,6 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        // Simulate gravity
         Ray playerRay = new Ray(transform.position, Vector3.down);
         if (Physics.Raycast(playerRay, out groundHit))
         {
@@ -44,7 +41,6 @@ public class PlayerMovement : MonoBehaviour
             Vector3 worldPosition = ray.GetPoint(enter);
             Vector3 playerPosition = plane.ClosestPointOnPlane(transform.position);
             transform.rotation = Quaternion.LookRotation(worldPosition - playerPosition);
-            RayTracker.transform.position = worldPosition;
         }
     }
 }

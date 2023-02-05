@@ -12,9 +12,9 @@ public class CameraFollow : MonoBehaviour
     private const float HEIGHT_OFFSET = 15f;
     private float Z_OFFSET = -( HEIGHT_OFFSET / Mathf.Tan(Mathf.Deg2Rad * ROTATION_X) );
 
-    void Start()
+    void Awake()
     {
-        transform.eulerAngles.Set(ROTATION_X, 0f, 0f);
+        transform.rotation = Quaternion.Euler(new Vector3(ROTATION_X, 0f, 0f));
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
     }
 

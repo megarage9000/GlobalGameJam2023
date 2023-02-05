@@ -111,6 +111,7 @@ GameObject:
   - component: {fileID: 3143533820918952403}
   - component: {fileID: 4532577086660717698}
   - component: {fileID: 3143533820918952406}
+  - component: {fileID: 5669979523544741897}
   - component: {fileID: 5531973084314350973}
   m_Layer: 0
   m_Name: Enemy
@@ -224,6 +225,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pathObject: {fileID: 3522145988421276979, guid: 99ff0c7e370f6674a8ae4d93c4f29e08, type: 3}
   map: {fileID: 0}
+--- !u!114 &5669979523544741897
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3143533820918952402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdc85c8d7def7e441841adbe9ab2817f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementScript: {fileID: 3143533820918952403}
+  searchScript: {fileID: 3143533820918952406}
+  playerTag: Player
+  generatorTag: MapGenerator
 --- !u!65 &5531973084314350973
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -21,7 +21,7 @@ public class HealthSystem : MonoBehaviour
         initHealthBar();
     }
 
-    public void TakeDamage(uint damage)
+    public virtual void TakeDamage(uint damage)
     {
         currHealth -= damage;
         setHealthBar(currHealth);
