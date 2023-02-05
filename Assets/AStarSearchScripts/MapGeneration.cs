@@ -11,8 +11,9 @@ public class MapGeneration : MonoBehaviour
     public float CeilingHeight = 400f;
     public LayerMask ObstacleLayer;
     public LayerMask FloorLayer;
-    public Vector2Int Dimension = new Vector2Int(100, 100);
+    public Vector2Int MaxWorldDimensions;
 
+    Vector2Int Dimension;
     public int X_Direction = 1;
     public int Y_Direction = 1;
 
@@ -41,6 +42,7 @@ public class MapGeneration : MonoBehaviour
 
     MapUnit[,] mapUnits;
     private void Awake() {
+        Dimension = WorldToMapCoordinates(new Vector3(MaxWorldDimensions.x, 0f, MaxWorldDimensions.y));
         mapUnits = new MapUnit[Dimension.x, Dimension.y];
         MapUnit.Scale = Granularity;
         MapUnit.CeilingHeight = CeilingHeight;
