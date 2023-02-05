@@ -12,10 +12,11 @@ public class HealthSystem : MonoBehaviour
     private uint currHealth;
 
     public UnityEvent OnDeath;
-    public SliderBar HealthBar;
+    private SliderBar HealthBar;
 
     void Start()
     {
+        HealthBar = GetComponentInChildren<SliderBar>();
         currHealth = maxHealth;
         initHealthBar();
     }
