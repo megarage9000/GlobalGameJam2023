@@ -81,6 +81,11 @@ public class MapUnit
         }
     }
 
+    public bool IsWideEnough(float radius) {
+        Collider[] colliders = new Collider[1];
+        return Physics.OverlapSphereNonAlloc(Position, radius, colliders, ObstacleLayer) == 0;
+    }
+
     public void CheckOverlappingObstacle(GameObject instantiable) {
         Collider[] colliders = new Collider[1];
         /*        if(Physics.OverlapBoxNonAlloc(Position, new Vector3(Scale, 2 * Scale, Scale), colliders, Quaternion.identity, ObstacleLayer) != 0) {

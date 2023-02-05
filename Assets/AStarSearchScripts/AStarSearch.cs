@@ -8,6 +8,7 @@ public class AStarSearch : MonoBehaviour
 {
     public GameObject pathObject;
     public MapGeneration map;
+    public float pathWidth = 1.0f;
     bool isDone = false;
 
     Dictionary<Vector2Int, AStarUnit> open_list;
@@ -16,6 +17,9 @@ public class AStarSearch : MonoBehaviour
     AStarUnit start_node;
     AStarUnit end_node;
     AStarUnit current;
+
+    AStarUnit prev_end_node;
+    AStarUnit prev_start_node;
 
     List<GameObject> pathObjects;
 
@@ -39,18 +43,25 @@ public class AStarSearch : MonoBehaviour
         MapUnit start_map_unit = map.GetMapUnitFromWorld(start_pos);
         MapUnit end_map_unit = map.GetMapUnitFromWorld(end_pos);
 
-        if (start_map_unit == null || end_map_unit == null) {
-            return nodes;
+        if (start_map_unit == null || start_map_unit.IsObstacle == true) {
+            start_node = prev_start_node;
         }
         else {
             start_node = new AStarUnit(start_map_unit, 0f, 0f, 0f);
-            end_node = new AStarUnit(end_map_unit, 0f, 0f, 0f);
-            current = start_node;
-            while(!isDone) {
-                Search();
-            }
-            return OutputPath();
+            prev_start_node = start_node;
         }
+        if(end_map_unit == null || end_map_unit.IsObstacle == true) {
+            end_node = prev_end_node;
+        }
+        else {
+            end_node = new AStarUnit(end_map_unit, 0f, 0f, 0f);
+            prev_end_node = end_node;
+        }
+        current = start_node;
+        while (!isDone) {
+            Search();
+        }
+        return OutputPath();
     }
 
     public List<Vector3> OutputPath() {
@@ -89,6 +100,11 @@ public class AStarSearch : MonoBehaviour
      */
 
     public void Search() {
+        if(start_node == null || end_node == null) {
+            isDone = true;
+            return;
+        }
+                
         if (current.IsEqualTo(end_node)) {
             isDone = true;
             return;
@@ -96,6 +112,7 @@ public class AStarSearch : MonoBehaviour
         List<MapUnit> neighbors = map.GetNeighbours(current.MapLocation);
         foreach(MapUnit neighbor in neighbors) {
             if (closed_list.ContainsKey(neighbor.MapPosition)) continue;
+            // if (!neighbor.IsWideEnough(pathWidth)) continue;
 
             // Calculate g,f,h
             float g = current.G + Vector2.Distance(current.MapLocation.MapPosition, neighbor.MapPosition);
@@ -118,6 +135,7 @@ public class AStarSearch : MonoBehaviour
             isDone = true;
             return;
         }
+
         AStarUnit lowest_node = open_list.Values.OrderBy(x => x.F).ToList()[0];
         open_list.Remove(lowest_node.MapLocation.MapPosition);
         closed_list.Add(lowest_node.MapLocation.MapPosition, lowest_node);
