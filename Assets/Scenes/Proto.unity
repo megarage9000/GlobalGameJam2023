@@ -4368,6 +4368,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2555533218406491918, guid: 95720536efa49de4d8e304d16a6b1eb1, type: 3}
+      propertyPath: invincivilityWindow
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2555533218406491958, guid: 95720536efa49de4d8e304d16a6b1eb1, type: 3}
       propertyPath: m_Name
       value: Player

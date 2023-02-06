@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -12,7 +13,9 @@ public class HealthSystem : MonoBehaviour
     private int currHealth;
 
     public UnityEvent OnDeath;
+    public float invincivilityWindow = 1f;
     private SliderBar HealthBar;
+    private bool canSetHealth = true;
 
     void Start()
     {
@@ -24,14 +27,22 @@ public class HealthSystem : MonoBehaviour
 
     public virtual void TakeDamage(int damage)
     {
-        currHealth -= damage;
-        setHealthBar(currHealth);
-        Debug.Log($"current health is {currHealth}");
-        if (currHealth <= 0)
-        {
+        if(canSetHealth) {
+            currHealth -= damage;
             
-            triggerDeathEvent();
+            setHealthBar(currHealth);
+
+            Debug.Log($"current health is {currHealth}");
+            if (currHealth <= 0) {
+                triggerDeathEvent();
+            }
         }
+    }
+
+    IEnumerator SetHealthTimer() {
+        canSetHealth = false;
+        yield return new WaitForSeconds(invincivilityWindow);
+        canSetHealth = true;
     }
 
     private void triggerDeathEvent()
@@ -50,5 +61,6 @@ public class HealthSystem : MonoBehaviour
     private void setHealthBar(int hp)
     {
         HealthBar.SetValue((int)hp);
+        StartCoroutine(SetHealthTimer());
     }
 }

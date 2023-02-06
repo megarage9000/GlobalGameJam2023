@@ -10,6 +10,8 @@ public class EnemyAttack : MonoBehaviour
     public UnityEvent OnCharacterLost;
 
     public string PlayerTag = "Target";
+    public int damage = 5;
+
     GameObject PlayerObject;
 
     private void Awake() {
@@ -19,6 +21,8 @@ public class EnemyAttack : MonoBehaviour
     private void Update() {
         if(PlayerObject) {
             transform.LookAt(PlayerObject.transform.position, Vector3.up);
+            HealthSystem playerHP = PlayerObject.GetComponent<HealthSystem>();
+            playerHP.TakeDamage(damage);
             Debug.Log("ATTACKING");
         }
     }
