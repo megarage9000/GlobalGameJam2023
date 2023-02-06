@@ -19,7 +19,7 @@ public class EnemySpawner : MonoBehaviour
     private int numSpawners;
     private int currentSpawner;
     private float currentSpawnRate;
-    
+    private int minNumEnemiesBeforeNextRound;
 
     private void Awake() {
         numSpawners = spawn_locations.Count;
@@ -27,7 +27,8 @@ public class EnemySpawner : MonoBehaviour
     }
 
     public IEnumerator SpawningRoutine(float spawnRate) {
-        for (int i = 0; i < numEnemies; i++) {
+        int numSpawns = numEnemies;
+        for (int i = 0; i < numSpawns; i++) {
             GameObject spawned = Instantiate(EnemyPrefab, transform.position, transform.rotation);
             HealthSystem healthSystem = spawned.GetComponent<HealthSystem>();
             if(healthSystem) {
@@ -52,13 +53,15 @@ public class EnemySpawner : MonoBehaviour
         currentSpawnRate = currentSpawnRate + (Round * spawnRateIncrease);
         numEnemies = Mathf.Min(numEnemies, MAX_NUM_ENEMIES);
         currentSpawnRate = Mathf.Min(currentSpawnRate, MAX_SPAWN_RATE);
-        Debug.Log($" Num Enemies = {numEnemies}, Current spawn rate = {1f/currentSpawnRate}, Round {Round}");
+        minNumEnemiesBeforeNextRound = Mathf.CeilToInt(numEnemies * 0.10f);
+        Debug.Log($" Num Enemies = {numEnemies}, Current spawn rate = {1f/currentSpawnRate}, Round {Round}, minNumEnemies = {minNumEnemiesBeforeNextRound}");
         StartCoroutine(SpawningRoutine(currentSpawnRate));
     }
 
     public void onEnemyKilled() {
         numEnemies--;
-        if(numEnemies <= 0) {
+        Debug.Log($"Enemies left = {numEnemies}");
+        if(numEnemies <= minNumEnemiesBeforeNextRound) {
             Round++;
             StartNewRound();
         }

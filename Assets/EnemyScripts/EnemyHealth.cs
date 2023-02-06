@@ -27,7 +27,7 @@ public class EnemyHealth : HealthSystem
                 }*/
         Debug.Log("Hit");
         if (other.gameObject.tag.Equals("Player")) {
-            TakeDamage(1000);
+            TakeDamage(5);
         }
     }
 
@@ -36,7 +36,7 @@ public class EnemyHealth : HealthSystem
             TakeDamage(20);
         }*/
         if (other.gameObject.tag.Equals("Player")) {
-            TakeDamage(1000);
+            TakeDamage(5);
         }
     }
 }
