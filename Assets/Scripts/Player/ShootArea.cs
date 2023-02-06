@@ -3,12 +3,12 @@ using UnityEngine;
 
 public class ShootArea : MonoBehaviour
 {
-    private const float offsetScaleFactor = 0.1f;
+    private const float offsetScaleFactor = 0.05f;
     private const float resizeScaleFactor = 1.5f;
-    private const float resizeMinValue = 0.3f;
-    private const float crosshairUpdateRate = 10.0f;
+    private const float resizeMinValue = 0.8f;
+    private const float crosshairUpdateRate = 3.0f;
 
-    public float ATTACK_DELAY = 0.5f;
+    public float ATTACK_DELAY = 0.1f;
     public int DAMAGE_AMOUT = 5;
 
     Transform playerTransform;
@@ -44,20 +44,18 @@ public class ShootArea : MonoBehaviour
         }
     }
 
-    IEnumerator OnTriggerEnter(Collider other)
+    void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Enemy"))
         {
             other.GetComponent<HealthSystem>().TakeDamage(DAMAGE_AMOUT);
         }
-        yield return new WaitForSeconds(ATTACK_DELAY);
     }
-    IEnumerator OnTriggerStay(Collider other)
+    void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("Enemy"))
         {
             other.GetComponent<HealthSystem>().TakeDamage(DAMAGE_AMOUT);
         }
-        yield return new WaitForSeconds(ATTACK_DELAY);
     }
 }

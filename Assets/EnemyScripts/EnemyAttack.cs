@@ -19,7 +19,7 @@ public class EnemyAttack : MonoBehaviour
     private void Update() {
         if(PlayerObject) {
             transform.LookAt(PlayerObject.transform.position, Vector3.up);
-            Debug.Log("ATTACKING");
+            // Debug.Log("ATTACKING");
         }
     }
 
