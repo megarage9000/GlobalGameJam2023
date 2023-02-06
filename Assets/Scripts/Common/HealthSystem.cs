@@ -5,29 +5,31 @@ using UnityEngine.UI;
 public class HealthSystem : MonoBehaviour
 {
     [SerializeField]
-    private uint maxHealth = 30;
+    private int maxHealth = 30;
     [SerializeField]
-    private uint minHealth = 0;
+    private int minHealth = 0;
     [SerializeField]
-    private uint currHealth;
+    private int currHealth;
 
     public UnityEvent OnDeath;
     private SliderBar HealthBar;
 
     void Start()
     {
+        Debug.Log("Start");
         HealthBar = GetComponentInChildren<SliderBar>();
         currHealth = maxHealth;
         initHealthBar();
     }
 
-    public virtual void TakeDamage(uint damage)
+    public virtual void TakeDamage(int damage)
     {
         currHealth -= damage;
         setHealthBar(currHealth);
-
+        Debug.Log($"current health is {currHealth}");
         if (currHealth <= 0)
         {
+            
             triggerDeathEvent();
         }
     }
@@ -39,12 +41,13 @@ public class HealthSystem : MonoBehaviour
 
     private void initHealthBar()
     {
+        Debug.Log("Initialize health bar");
         HealthBar.SetMaxValue((int)maxHealth);
         HealthBar.SetMinValue((int)minHealth);
         HealthBar.SetValue((int)maxHealth);
     }
 
-    private void setHealthBar(uint hp)
+    private void setHealthBar(int hp)
     {
         HealthBar.SetValue((int)hp);
     }
