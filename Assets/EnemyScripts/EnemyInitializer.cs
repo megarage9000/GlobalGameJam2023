@@ -9,14 +9,15 @@ public class EnemyInitializer : MonoBehaviour
     public AStarSearch searchScript;
 
     public string playerTag;
+    public string TrunkTag;
     public string generatorTag;
-
 
     private void Awake() {
         GameObject target = GameObject.FindWithTag(playerTag);
+        GameObject trunk = GameObject.FindWithTag(TrunkTag);
         MapGeneration generationScript = GameObject.FindWithTag(generatorTag).GetComponent<MapGeneration>();
 
-        movementScript.target = target;
+        movementScript.target = Random.Range(0, 2) == 1 ? target : trunk;
         searchScript.map = generationScript;
     }
 }

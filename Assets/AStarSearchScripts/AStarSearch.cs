@@ -49,13 +49,14 @@ public class AStarSearch : MonoBehaviour
             start_node = new AStarUnit(start_map_unit, 0f, 0f, 0f);
             prev_start_node = start_node;
         }
-        if(end_map_unit == null || end_map_unit.IsObstacle == true) {
-            end_node = prev_end_node;
-        }
-        else {
-            end_node = new AStarUnit(end_map_unit, 0f, 0f, 0f);
-            prev_end_node = end_node;
-        }
+        /*        if(end_map_unit == null || end_map_unit.IsObstacle == true) {
+                    end_node = prev_end_node;
+                }
+                else {
+
+                    prev_end_node = end_node;
+                }*/
+        end_node = new AStarUnit(end_map_unit, 0f, 0f, 0f);
         current = start_node;
         while (!isDone) {
             Search();

@@ -20,6 +20,7 @@ public class EnemySpawner : MonoBehaviour
     private int currentSpawner;
     private float currentSpawnRate;
     private int minNumEnemiesBeforeNextRound;
+    private int killedEnemies;
 
     private void Awake() {
         numSpawners = spawn_locations.Count;
@@ -54,14 +55,15 @@ public class EnemySpawner : MonoBehaviour
         numEnemies = Mathf.Min(numEnemies, MAX_NUM_ENEMIES);
         currentSpawnRate = Mathf.Min(currentSpawnRate, MAX_SPAWN_RATE);
         minNumEnemiesBeforeNextRound = Mathf.CeilToInt(numEnemies * 0.10f);
+        killedEnemies = 0;
         Debug.Log($" Num Enemies = {numEnemies}, Current spawn rate = {1f/currentSpawnRate}, Round {Round}, minNumEnemies = {minNumEnemiesBeforeNextRound}");
         StartCoroutine(SpawningRoutine(currentSpawnRate));
     }
 
     public void onEnemyKilled() {
-        numEnemies--;
+        killedEnemies++;
         Debug.Log($"Enemies left = {numEnemies}");
-        if(numEnemies <= minNumEnemiesBeforeNextRound) {
+        if((numEnemies - killedEnemies) <= minNumEnemiesBeforeNextRound) {
             Round++;
             StartNewRound();
         }
