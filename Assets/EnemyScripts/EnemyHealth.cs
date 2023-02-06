@@ -25,18 +25,18 @@ public class EnemyHealth : HealthSystem
         /*        if(other.gameObject.tag.Equals("Enemy")) {
                     TakeDamage(20);
                 }*/
-        Debug.Log("Hit");
-        if (other.gameObject.tag.Equals("Player")) {
-            TakeDamage(5);
-        }
+        // Debug.Log("Hit");
+        // if (other.gameObject.tag.Equals("Player")) {
+        //    TakeDamage(5);
+        // }
     }
 
     private void OnTriggerStay(Collider other) {
 /*        if (other.gameObject.tag.Equals("Enemy")) {
             TakeDamage(20);
         }*/
-        if (other.gameObject.tag.Equals("Player")) {
+/*        if (other.gameObject.tag.Equals("Player")) {
             TakeDamage(5);
-        }
+        } */
     }
 }
