@@ -52,7 +52,6 @@ public class HealthSystem : MonoBehaviour
 
     private void initHealthBar()
     {
-        Debug.Log("Initialize health bar");
         HealthBar.SetMaxValue((int)maxHealth);
         HealthBar.SetMinValue((int)minHealth);
         HealthBar.SetValue((int)maxHealth);

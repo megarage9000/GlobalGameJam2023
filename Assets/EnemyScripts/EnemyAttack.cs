@@ -9,7 +9,8 @@ public class EnemyAttack : MonoBehaviour
     public UnityEvent OnCharacterSpot;
     public UnityEvent OnCharacterLost;
 
-    public string PlayerTag = "Target";
+    public string PlayerTag = "Player";
+    public string TrunkTag = "Trunk";
     public int damage = 5;
 
     GameObject PlayerObject;
@@ -28,14 +29,15 @@ public class EnemyAttack : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider other) {
-        if(other.gameObject.tag.Equals(PlayerTag)) {
+        if(other.gameObject.tag.Equals(PlayerTag) || other.gameObject.tag.Equals(TrunkTag)) {
+            Debug.Log(gameObject.tag);
             PlayerObject = other.gameObject;
             OnCharacterSpot.Invoke();
         }
     }
 
     private void OnTriggerExit(Collider other) {
-        if (other.gameObject.tag.Equals(PlayerTag)) {
+        if (other.gameObject.tag.Equals(PlayerTag) || other.gameObject.tag.Equals(TrunkTag)) {
             PlayerObject = null;
             OnCharacterLost.Invoke();
         }

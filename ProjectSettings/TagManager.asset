@@ -8,6 +8,7 @@ TagManager:
   - Ground
   - MapGenerator
   - Enemy
+  - Trunk
   layers:
   - Default
   - TransparentFX
